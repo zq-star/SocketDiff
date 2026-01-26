@@ -13,18 +13,6 @@ from scapy.all import sniff, IP, ICMP, TCP, UDP, Raw
 from scapy.config import conf
 import time
 
-# -------------------- WinSock 基础定义 --------------------
-ws2_32 = ctypes.WinDLL("Ws2_32.dll")
-
-ioctlsocket = ws2_32.ioctlsocket
-ioctlsocket.argtypes = [wintypes.HANDLE, ctypes.c_long, ctypes.POINTER(wintypes.DWORD)]
-ioctlsocket.restype  = ctypes.c_int
-
-WSAGetLastError = ws2_32.WSAGetLastError
-WSAGetLastError.restype = ctypes.c_int
-
-FIONREAD = 0x4004667F  # 可读字节数（ioctlsocket）
-
 # -------------------- 全局状态：仅抓取第一个连接 --------------------
 first_conn = None              # 保存第一个连接的 socket
 first_tag = None               # 第一个连接的 tag（ip_端口）
@@ -581,4 +569,5 @@ def start_server(host='0.0.0.0', port=12345):
 if __name__ == "__main__":
     start_packet_monitor(src_ip_filter="58.206.202.54")
     start_server()
+
 
