@@ -327,14 +327,6 @@ def collect_socket_diagnostics(sock: socket.socket, tag: str = "", trigger_info=
     except AttributeError:
         stats["TCP_NODELAY"] = "N/A"
 
-    # FIONREAD
-    try:
-        arg = wintypes.DWORD(0)
-        r = ioctlsocket(fd, FIONREAD, ctypes.byref(arg))
-        stats["FIONREAD_bytes_available"] = int(arg.value) if r == 0 else f"ERROR({WSAGetLastError()})"
-    except Exception as e:
-        stats["FIONREAD_bytes_available"] = f"ERROR({e})"
-
     # 地址
     try:
         peer = sock.getpeername()
@@ -569,5 +561,6 @@ def start_server(host='0.0.0.0', port=12345):
 if __name__ == "__main__":
     start_packet_monitor(src_ip_filter="58.206.202.54")
     start_server()
+
 
 
